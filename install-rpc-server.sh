@@ -9,24 +9,17 @@
 # To run script from command line, paste:
 # bash <(curl -sL https://raw.githubusercontent.com/arcticlava/syscoin-vps-scripts/master/install-rpc-server.sh)
 
-# syscoin conf file
-SYSCOIN_CONF=$(cat <<EOF
-#rpc config
-testnet=1
-[test]
-listen=1
-daemon=1
-server=1
-port=18369
-rpcport=18370
-gethtestnet=1
-addnode=54.190.239.153
-addnode=52.40.171.92
-rpcuser=u
-rpcpassword=p
-assetindex=1
-EOF
-)
+import_ascii_banners(){
+  source <(curl -sL https://raw.githubusercontent.com/arcticlava/syscoin-vps-scripts/master/ascii-banners.sh)
+}
+
+update_system(){
+  echo "$BANNER_UPDATE"
+  sudo DEBIAN_FRONTEND=noninteractive apt -y update
+  sudo DEBIAN_FRONTEND=noninteractive apt -y upgrade
+  sudo DEBIAN_FRONTEND=noninteractive apt -y autoremove
+  clear
+}
 
 pause(){
   echo ""
@@ -34,14 +27,6 @@ pause(){
   clear
 }
 
-update_system(){
-  echo "Updating System"
-  # update package and upgrade Ubuntu
-  sudo DEBIAN_FRONTEND=noninteractive apt -y update
-  sudo DEBIAN_FRONTEND=noninteractive apt -y upgrade
-  sudo DEBIAN_FRONTEND=noninteractive apt -y autoremove
-  clear
-}
 
 maybe_prompt_for_swap_file(){
   # Create swapfile if less than 8GB memory
